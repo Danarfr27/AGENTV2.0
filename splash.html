@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Splash - WORM AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <!-- Tambahkan href ke background image -->
+  <link href="https://malxgmn.vercel.app/images/logo/logocollab.PNG">
+  <style>
+        .splash-bg-glow {
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          z-index: 1;
+          pointer-events: none;
+          background: radial-gradient(circle at 50% 40%, #00ff88 0%, transparent 60%);
+          opacity: 0.18;
+          filter: blur(32px);
+        }
+        .splash-title {
+          font-family: 'Orbitron', sans-serif;
+          font-size: 64px;
+          font-weight: 700;
+          color: #00ff88;
+          text-shadow: 0 0 40px #00ff88, 0 0 80px #00ff88;
+          margin-bottom: 24px;
+          letter-spacing: 2px;
+          position: relative;
+          overflow: visible;
+          animation: glitch 1.2s infinite linear alternate;
+        }
+        @keyframes glitch {
+          0% { text-shadow: 0 0 40px #00ff88, 0 0 80px #00ff88; }
+          20% { text-shadow: 2px 0 40px #00ff88, -2px 0 80px #00ff88; }
+          40% { text-shadow: -2px 0 40px #00ff88, 2px 0 80px #00ff88; }
+          60% { text-shadow: 0 2px 40px #00ff88, 0 -2px 80px #00ff88; }
+          80% { text-shadow: 0 -2px 40px #00ff88, 0 2px 80px #00ff88; }
+          100% { text-shadow: 0 0 40px #00ff88, 0 0 80px #00ff88; }
+        }
+    body {
+      background: #050505;
+      color: #00ff88;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .splash-container {
+      text-align: center;
+      position: absolute;
+      top: 8vh;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .splash-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 64px;
+      font-weight: 700;
+      color: #00ff88;
+      text-shadow: 0 0 40px #00ff88, 0 0 80px #00ff88;
+      margin-bottom: 24px;
+      letter-spacing: 2px;
+    }
+    .splash-subtitle {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 22px;
+      color: #00f0ff;
+      margin-bottom: 40px;
+      letter-spacing: 1px;
+    }
+    .splash-loading {
+      width: 320px;
+      height: 8px;
+      background: rgba(0,255,136,0.1);
+      border-radius: 4px;
+      margin: 0 auto 16px auto;
+      overflow: hidden;
+      position: relative;
+    }
+    .splash-loading-bar {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, #00ff88, #00f0ff);
+      border-radius: 4px;
+      animation: loading-bar 2s linear forwards;
+    }
+    @keyframes loading-bar {
+      0% { width: 0; }
+      100% { width: 100%; }
+    }
+    /* .splash-status and marquee animation removed, replaced by .splash-gif */
+    /* Corner decorations */
+    .corner-decoration {
+      position: fixed;
+      width: 100px;
+      height: 100px;
+      border: 2px solid rgba(0, 255, 136, 0.2);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .corner-decoration.top-left {
+      top: 20px;
+      left: 20px;
+      border-right: none;
+      border-bottom: none;
+    }
+    .corner-decoration.top-right {
+      top: 20px;
+      right: 20px;
+      border-left: none;
+      border-bottom: none;
+    }
+    .corner-decoration.bottom-left {
+      bottom: 20px;
+      left: 20px;
+      border-right: none;
+      border-top: none;
+    }
+    .corner-decoration.bottom-right {
+      bottom: 20px;
+      right: 20px;
+      border-left: none;
+      border-top: none;
+    }
+  </style>
+</head>
+<body>
+    <div class="splash-bg-glow"></div>
+  <div class="corner-decoration top-left"></div>
+  <div class="corner-decoration top-right"></div>
+  <div class="corner-decoration bottom-left"></div>
+  <div class="corner-decoration bottom-right"></div>
+  <div class="splash-container">
+    <div class="splash-title" id="splashTitle"></div>
+    <div class="splash-title" id="wormTitle"></div>
+    <div class="splash-subtitle">CYBER INTELLIGENCE INTERFACE</div>
+    <div class="splash-loading">
+      <div class="splash-loading-bar"></div>
+    </div>
+    <div class="splash-gif" style="margin-top: 32px; display: flex; justify-content: center; align-items: center; width: 100%;">
+      <video src="https://f.top4top.io/m_37387wpn81.mp4" autoplay loop muted playsinline style="max-width: 320px; max-height: 120px; border-radius: 12px; box-shadow: 0 0 32px #00ff88; background: #000;"></video>
+    </div>
+  </div>
+</body>
+</body>
+<script src="/js/auth.js"></script>
+<script>
+  // Efek animasi FEARDOWN dan WORM AI V1.7 tetap
+  const feardownText = "FEARDOWN";
+  const splashTitle = document.getElementById("splashTitle");
+  let feardownIdx = 0;
+  function showJumpingFeardown(callback) {
+    splashTitle.innerHTML = "";
+    for (let i = 0; i < feardownText.length; i++) {
+      const span = document.createElement("span");
+      span.textContent = feardownText[i];
+      span.style.opacity = i <= feardownIdx ? 1 : 0.2;
+      span.style.transform = i === feardownIdx ? "translateY(-24px) scale(1.3)" : "none";
+      span.style.display = "inline-block";
+      span.style.transition = "transform 0.3s, opacity 0.2s";
+      splashTitle.appendChild(span);
+    }
+    if (feardownIdx < feardownText.length) {
+      setTimeout(() => {
+        feardownIdx++;
+        showJumpingFeardown(callback);
+      }, 180);
+    } else {
+      splashTitle.textContent = feardownText;
+      if (callback) callback();
+    }
+  }
+  const targetText = "WORM AI V1.7";
+  const titleEl = document.getElementById("wormTitle");
+  let idx = 0;
+  function showJumpingText() {
+    titleEl.innerHTML = "";
+    for (let i = 0; i < targetText.length; i++) {
+      const span = document.createElement("span");
+      span.textContent = targetText[i];
+      span.style.opacity = i <= idx ? 1 : 0.2;
+      span.style.transform = i === idx ? "translateY(-24px) scale(1.3)" : "none";
+      span.style.display = "inline-block";
+      span.style.transition = "transform 0.3s, opacity 0.2s";
+      titleEl.appendChild(span);
+    }
+    if (idx < targetText.length) {
+      setTimeout(() => {
+        idx++;
+        showJumpingText();
+      }, 180);
+    } else {
+      titleEl.textContent = targetText;
+    }
+  }
+  // Domino animasi
+  feardownIdx = 0;
+  showJumpingFeardown(() => showJumpingText());
+
+  // Redirect logic: 3 detik lalu cek login
+  setTimeout(function() {
+    if (window.auth && typeof auth.isAuthenticated === 'function') {
+      auth.isAuthenticated().then(function(isAuth) {
+        if (isAuth) {
+          window.location.href = '/index.html';
+        } else {
+          window.location.href = '/login.html';
+        }
+      }).catch(function() {
+        window.location.href = '/login.html';
+      });
+    } else {
+      window.location.href = '/login.html';
+    }
+  }, 3000);
+</script>
+</html>

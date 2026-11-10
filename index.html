@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIRDHAN-AGENT | AI Chat</title>
+<script>(function(){try{var t=localStorage.getItem('firdhan_theme')||'dark';document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body style="visibility:hidden">
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="side-head">
+      <div class="brand">⚡ FIRDHAN-AGENT</div>
+      <button id="themeToggle" class="icon-btn" title="Mode malam/siang">☀️</button>
+    </div>
+    <button id="newChatBtn" class="new-chat">＋ New Chat</button>
+    <nav class="chat-list" id="chatList"></nav>
+    <div class="side-foot">
+      <label class="model-wrap">
+        <span>MODEL</span>
+        <select id="modelSelect" aria-label="Pilih model AI"></select>
+      </label>
+      <div class="user-row">
+        <div class="avatar" id="userAvatar">F</div>
+        <div class="user-meta"><div id="userName">—</div><div id="userRole" class="muted">—</div></div>
+        <button id="logoutBtn" class="icon-btn danger" title="Logout">⏻</button>
+      </div>
+    </div>
+  </aside>
+  <div class="overlay" id="sidebarOverlay"></div>
+
+  <main class="main">
+    <header class="topbar">
+      <button id="menuBtn" class="icon-btn only-mobile" title="Menu">☰</button>
+      <div class="topbar-title" id="topbarTitle">New Chat</div>
+    </header>
+
+    <div class="chat-scroll" id="chatContainer"></div>
+
+    <div class="welcome" id="welcomeScreen">
+      <div class="welcome-logo">⚡</div>
+      <h1>FIRDHAN-AGENT</h1>
+      <p>Asisten AI dengan OCR. Upload gambar/PDF/TXT atau mulai mengetik.</p>
+      <div class="suggestions">
+        <button onclick="document.getElementById('userInput').value=this.dataset.q;document.getElementById('userInput').focus()" data-q="Jelaskan apa itu AI agent secara singkat">💡 Apa itu AI agent?</button>
+        <button onclick="document.getElementById('userInput').value=this.dataset.q;document.getElementById('userInput').focus()" data-q="Buatkan contoh kode JavaScript fetch API">💻 Contoh fetch API</button>
+        <button onclick="document.getElementById('userInput').value=this.dataset.q;document.getElementById('userInput').focus()" data-q="Tips belajar programming untuk pemula">🎓 Tips belajar coding</button>
+      </div>
+    </div>
+
+    <div class="preview-area" id="previewArea">
+      <div class="pv-head"><span>📎 LAMPIRAN</span><button class="icon-btn" onclick="window.__removeFile&&window.__removeFile()">✕</button></div>
+      <div class="pv-body" id="previewContent"></div>
+    </div>
+
+    <footer class="composer">
+      <div class="composer-box">
+        <button id="attachBtn" class="icon-btn" title="Upload file">📎</button>
+        <textarea id="userInput" rows="1" placeholder="Ketik pesan…  (Enter kirim, Shift+Enter baris baru)"></textarea>
+        <button id="sendBtn" class="send" title="Kirim">➤</button>
+        <button id="stopBtn" class="send stop" style="display:none" title="Stop">■</button>
+      </div>
+      <div class="hint">Histori chat tersimpan di browser (localStorage) • Serverless-ready</div>
+    </footer>
+  </main>
+</div>
+
+<div class="drag-overlay" id="dragOverlay"><div>📁 Lepaskan file di sini</div></div>
+<input type="file" id="fileInput" hidden accept="image/*,.pdf,.txt,.doc,.docx">
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="js/models.js"></script>
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script>
+// Guard: wajib login
+auth.isAuthenticated().then(ok => {
+  if (!ok) { location.href = '/login.html'; return; }
+  document.body.style.visibility = 'visible';
+  window.dispatchEvent(new Event('DOMContentLoaded'));
+}).catch(() => location.href = '/login.html');
+</script>
+<script src="js/app.js"></script>
+<script>window.__removeFile = () => document.querySelector('.preview-area').classList.remove('active');</script>
+</body>
+</html>

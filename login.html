@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — FIRDHAN-AGENT</title>
+<script>(function(){try{document.documentElement.dataset.theme=localStorage.getItem('firdhan_theme')||'dark';}catch(e){}})();</script>
+<link rel="stylesheet" href="css/style.css">
+<style>
+body{display:flex;align-items:center;justify-content:center;min-height:100vh}
+.login-card{width:100%;max-width:380px;background:var(--bg-2);border:1px solid var(--border);border-radius:16px;padding:36px 30px;box-shadow:var(--shadow)}
+.login-card h1{text-align:center;margin:0 0 6px;font-size:1.4rem}
+.login-card .sub{text-align:center;color:var(--muted);font-size:.85rem;margin-bottom:26px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.field input{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg-3);color:var(--text);font-size:.95rem;outline:none;transition:border-color .2s}
+.field input:focus{border-color:var(--accent)}
+.login-btn{width:100%;padding:12px;border:none;border-radius:10px;background:var(--accent);color:#fff;font-weight:600;font-size:.95rem;cursor:pointer;transition:filter .2s}
+.login-btn:hover{filter:brightness(1.1)}
+.err{display:none;background:var(--danger-bg);color:var(--danger);padding:10px 12px;border-radius:8px;font-size:.85rem;margin-bottom:14px}
+.back{display:block;text-align:center;margin-top:18px;color:var(--muted);font-size:.82rem;text-decoration:none}
+.back:hover{color:var(--text)}
+</style>
+</head>
+<body>
+<div class="login-card">
+  <h1>⚡ FIRDHAN-AGENT</h1>
+  <div class="sub">Masuk untuk melanjutkan</div>
+  <div class="err" id="err"></div>
+  <form id="loginForm">
+    <div class="field"><label>Username</label><input id="u" autocomplete="username" required></div>
+    <div class="field"><label>Password</label><input id="p" type="password" autocomplete="current-password" required></div>
+    <button class="login-btn" type="submit" id="btn">Masuk</button>
+  </form>
+</div>
+<script src="js/auth.js"></script>
+<script>
+document.getElementById('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const err = document.getElementById('err'), btn = document.getElementById('btn');
+  err.style.display = 'none'; btn.disabled = true; btn.textContent = 'Memeriksa…';
+  const r = await auth.login(document.getElementById('u').value.trim(), document.getElementById('p').value);
+  btn.disabled = false; btn.textContent = 'Masuk';
+  if (r.ok) location.href = '/';
+  else { err.textContent = r.message; err.style.display = 'block'; }
+});
+</script>
+</body>
+</html>
