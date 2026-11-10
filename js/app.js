@@ -165,10 +165,12 @@ class Agent {
 
         let content = text || '(File upload)';
         let fileInfo = '';
+        let isImageUpload = false;
 
         if (this.currentFile) {
             const isImg = this.currentFile.type.startsWith('image/');
             if (isImg) {
+                isImageUpload = true;
                 this.appendBubble('user', content, true, { img: this.currentFileData, name: this.currentFile.name });
                 const ocr = await this.runOCR(this.currentFileData);
                 fileInfo = ocr && ocr.trim() ? `\n\n[HASIL OCR]:\n${ocr}` : '\n\n[GAMBAR DIUNGGAH - tidak ada teks terdeteksi]';
@@ -189,8 +191,14 @@ class Agent {
         this.removeFile();
 
         const bubble = this.appendBubble('assistant', '');
-        const apiMsgs = [{ role: 'system', content: SYSTEM_PROMPT }]
-            .concat(chat.messages.map(m => ({ role: m.role, content: m.content })));
+        const apiMsgs = [{ role: 'system', content: SYSTEM_PROMPT }];
+        apiMsgs.push(...chat.messages.map(m => ({ role: m.role, content: m.content })));
+        if (isImageUpload) {
+            apiMsgs.push({
+                role: 'system',
+                content: 'Instruksi khusus untuk gambar yang baru diunggah: jelaskan isi dan maknanya sebagai jawaban percakapan dalam teks biasa, dalam bahasa pengguna. Gunakan hasil OCR sebagai petunjuk isi gambar. Jangan keluarkan JSON, kode, nama field seperti target/category/status/metrics, atau format data terstruktur. Jika gambar berisi rumus, jelaskan rumus itu dengan kalimat sederhana. Jika OCR tidak cukup, sebutkan bagian yang tidak terbaca dan jangan mengarang. Instruksi ini hanya mengesampingkan format JSON jika pengguna secara eksplisit meminta JSON.'
+            });
+        }
 
         this.abort = new AbortController();
         let full = '';
