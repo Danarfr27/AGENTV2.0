@@ -75,6 +75,17 @@ Jangan membuka `index.html` langsung atau menggunakan static Live Server untuk m
 
 API key hanya dibaca oleh endpoint server di `api/chat.js` dan tidak dikirim ke browser. Jika Sumopod mengembalikan 401, buat atau rotasi API key Sumopod, perbarui `SUMOPOD_API_KEY` pada environment yang aktif, lalu restart server lokal atau redeploy Vercel. Cabut key lama yang pernah tersimpan di file atau percakapan.
 
+### Login
+
+Atur kredensial login sebagai environment variables server (misalnya di **Vercel → Project Settings → Environment Variables**):
+
+- `ADMIN_USER` dan `ADMIN_PASS` untuk akun admin
+- `USER_USER` dan `USER_PASS` untuk satu akun pengguna
+- `USER1_USER` dan `USER1_PASS`, lalu pasangan bernomor berikutnya sampai `USER100_USER`/`USER100_PASS`, untuk beberapa akun pengguna
+- `SESSION_SECRET` untuk menandatangani cookie sesi; gunakan nilai acak yang panjang dan rahasia
+
+Variabel harus tersedia pada environment yang digunakan deployment. Setelah menambah atau mengubah variabel di Vercel, lakukan redeploy. Endpoint login, sesi, dan logout tersedia melalui `/api/login`, `/api/session`, dan `/api/logout`.
+
 ## 📝 License
 
 MIT License - feel free to use and modify!

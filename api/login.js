@@ -1,12 +1,11 @@
-import { sign } from './_session.js';
-import { getDeviceForUser, setDeviceForUser } from './device_store.js';
+const { sign } = require('./_session.js');
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { username, password, deviceId } = req.body || {};
+  const { username, password } = req.body || {};
 
   // Anti brute-force delay (500 - 1000 ms)
   const delay = Math.floor(Math.random() * 500) + 500;
@@ -48,21 +47,8 @@ export default async function handler(req, res) {
     return res.status(401).json({ ok: false, message: 'Invalid credentials' });
   }
 
-  // 3. Batasan 1 Perangkat (Single-Device Lock)
-  if (!deviceId) {
-    return res.status(400).json({ ok: false, message: 'deviceId required' });
-  }
-
-  const existing = await getDeviceForUser(username);
-  if (existing && existing !== deviceId) {
-    return res.status(403).json({ ok: false, message: 'Account already in use on another device' });
-  }
-
-  // Tetapkan perangkat ke pengguna
-  await setDeviceForUser(username, deviceId);
-
-  // 4. Penerbitan Token & Cookie
-  const payload = { username, role, ts: Date.now(), deviceId };
+  // 3. Penerbitan Token & Cookie
+  const payload = { username, role, ts: Date.now() };
   const token = sign(payload);
 
   const maxAge = 60 * 60 * 8; // 8 Jam
@@ -73,4 +59,4 @@ export default async function handler(req, res) {
   );
 
   return res.status(200).json({ ok: true, role });
-}
+};
